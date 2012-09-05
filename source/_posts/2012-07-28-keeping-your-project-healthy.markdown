@@ -20,15 +20,15 @@ Here are some tips that help us to run
 
   If you are developing in Rails you should know the plugin! It displays footnotes in your application for easy debugging, such as sessions, request parameters, cookies, filter chain, routes, queries, etc.
 
-  Even more, it contains links to open files directly in your editor including your backtrace lines. 
-   
+  Even more, it contains links to open files directly in your editor including your backtrace lines.
+
   <https://github.com/josevalim/rails-footnotes>
-  
+
 ### Remove trailing spaces
   Trailing spaces is a minor detail but it adds a level of noise in git logs in development process.
-  
+
 #### To clean up whitespaces in all files you can use following script
-    
+
 ```
     find . -not \( -name .svn -prune -o -name .git -prune \) -type f -print0 | xargs -0 file -In | grep -v binary | cut -d ":" -f1 | xargs -0 sed -i '' -E "s/[[:space:]]*$//"
 ```
@@ -38,25 +38,25 @@ Here are some tips that help us to run
 #### Setup text editor to remove trailing spaces before saving file
 
   * _sublime_
-  
+
     Recently popular Sublime Text 2 have this functionality built in by default. You just need to add following string to configuration file:
-```    
+```
   "trim_trailing_white_space_on_save": true
 ```
 
   * _textmate_
-  
-    Here is textmate bundle to Convert Tabs To Spaces and Remove Trailing Whitespace 
-    
+
+    Here is textmate bundle to Convert Tabs To Spaces and Remove Trailing Whitespace
+
     <https://github.com/glennr/uber-glory-tmbundle>
 
   * _vim_
-  
-    If you are using vim, it's a very good chance you already setup this functionality.    
+
+    If you are using vim, it's a very good chance you already setup this functionality.
     If not, you can use this link <http://rails-bestpractices.com/posts/60-remove-trailing-whitespace>
 
 ### Keep Seed data in seeds! Seed is very important for everyone
-  On one of our projects I spend tens of hours working on seed script and sample data, so we can deploy full working service in no time when customer need it.
+  On one of our projects I spend tens of hours working on seed script and sample data, so we can deploy full working site in no time when customer need to see it.
   Good for demo day!
 
 ### Change README file, no matter whatever for
@@ -64,27 +64,40 @@ Here are some tips that help us to run
   Reflect changes in structure of project or testing approach or specific requirements that needed.
   <http://tom.preston-werner.com/2010/08/23/readme-driven-development.html>
 
+### Do not forget about /doc folder
+
+  This folder can be very good to keep your project documentation. Of course we all know about github wiki pages or basecamp or any other knowledge base of choice. But do you really want to be dependent of external service to keep your documentation?
+  With just a few keystrokes in your editor you can have access to all documentation related to project. Credentials, setting up development machine, deployment, testing, tips, technical debts, just random ideas, list can go forever.
+  But wait, it's not the best thing yet. The best thing is you can __track__ changes in documentation just going through commits! Why use to places of updates in the code instead of one?(SCM)
+
 ### Code Climate - collect metrics
 
   The best way to reflect on code is to collect various code metrics.
 
+  Check out <https://codeclimate.com/>
+
 ### Extract modules
 
-  Go through all the models and see maybe you can extract similar code from models to modules. This will(hopefully!) not break anything inside but make code more readable.
+  Go through all the models and see maybe you can extract similar code from models to general utility modules. This will(hopefully!) not break anything inside but make code more readable.
+  Also consider to going even far with SRP(Single Responsibility Principle) and compose classes that do only one thing, but do it good.
 
 ### Newrelic rpm
 
   Setup free account to monitor your servers. Newrelic is sending emails when your CPU or memory is over threshold.
   Also by default you can browse page response time and find controllers that spend most of resources.
 
+### Live metrics
+
+  Instrumental makes it easy to see what's happening in your application right now.
+  Collecting live information about performance of application can get your eyes open on a lot of things. With just few changes you can save hundreds of dollars on hardware.
+
+  Check out <https://instrumentalapp.com>
+
 ### Use capistrano to deploy(unless you using heroku)
 
-  Use automated deployment! Either heroku or capistrano.
+  Use automated deployment with no excuse! Either heroku or capistrano.
+  https://gist.github.com/2161449
 
-### features staging server
+### feature and staging server
 
   Setup multiple staging servers per developer, or per feature
-
-
-
-
