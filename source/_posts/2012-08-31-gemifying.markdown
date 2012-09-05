@@ -1,4 +1,12 @@
-#CTIDTW:  Gemifying your app for fun and profit
+---
+layout: post
+title: "Gemifying your app for fun and profit"
+date: 2012-08-31 14:53
+comments: true
+categories: ruby
+published: true
+---
+
 ###Installment 1 in "Coolest Thing I Did This Week"
 
 Welcome to installment 1 of "Coolest Thing I Did This Week", a (hopefully) weekly feature where I tell you about something that I did, why it was cool, and how you can do it too.  This week, it's about how to gemify something.
