@@ -24,6 +24,6 @@ So I made one! [Sinatra Template](<https://github.com/shell/sinatra-template>)
     * Some essential Rails helpers 
     * Ready for deploy with passenger(config/setup_load_paths.rb)
 
-Some prefer to extract controllers, models and helpers in corresponding folders and split them over files. It is a matter of taste, bit hey! If you have that much code, consider using Rails instead.
+Some prefer to extract controllers, models and helpers in corresponding folders and split them over files. It is a matter of taste. If you have that much code, consider using Rails instead.
 
 Enjoy
