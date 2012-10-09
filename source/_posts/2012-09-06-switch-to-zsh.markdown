@@ -1,15 +1,15 @@
 ---
 layout: post
+author: "Vladimir Penkin"
 title: "Switching to zsh and why you should do it now"
 date: 2012-09-06 23:13
 comments: true
 categories:
-published: false
 ---
 
 ## Switching to zsh and why you should do it now
 
-If you working with ruby or rails, there is big chance that you spending logs of time in console. Yeah you probably using already this wonderful project that helps you everyday called iTerm2. But why don't make your work even more comfortable?!
+If you working with ruby or rails, there is big chance that you spending lots of time in console. Yeah you probably using already this wonderful project that helps you everyday called [iTerm2](http://www.iterm2.com/). But why don't make your work even more comfortable?!
 
 *zsh* - is a shell designed for interactive use, although it is also a powerful scripting language. Many of the useful features of bash, ksh, and tcsh were incorporated into zsh; many original features were added
 
@@ -23,11 +23,15 @@ Installation is deadly easy:
 
 ####  via `curl`
 
+``` bash
   curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+```
 
 ####  via `wget`
 
+``` bash
   wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
+```
 
 If you have some troubles - manual installation is available.
 After installation open up new console window and say "OH-MY-ZSH!"
@@ -52,7 +56,7 @@ Also it wrapps all regular commands that can require 'bundle exec' before them a
 
 #### cloudapp by Zach Holman
 
-(CloudApp)<http://getcloudapp.com/> allows you to share images, links, music, videos and files. Usually you just drop files to icon and app automatically uploads them to cloud and drops short link into your clipboard. It automatically uploads screenshots from your desktop.
+[CloudApp](http://getcloudapp.com/) allows you to share images, links, music, videos and files. Usually you just drop files to icon and app automatically uploads them to cloud and drops short link into your clipboard. It automatically uploads screenshots from your desktop.
 
 Plugin allows you to upload a file from the command line to CloudApp.
 
@@ -86,7 +90,7 @@ Some commands to rule your system:
 
 #### pow
 
-(Pow)<http://pow.cx/> is a zero-config Rack server for Mac OS X.
+[Pow](http://pow.cx/) is a zero-config Rack server for Mac OS X.
 
 So this plugin adds few commands to rule that doomsday device:
 
@@ -126,6 +130,3 @@ But wait, it's not all! Most of plugins for particular tools(git, github, bundle
 Ryan Bates have wonderful screencast about oh-my-zsh
 <http://railscasts.com/episodes/308-oh-my-zsh>
 
-### Thanks
-
-I hope that was helpful. I strongly recommend to try zsh today

@@ -1,10 +1,10 @@
 ---
 layout: post
+author: "Vladimir Penkin"
 title: "Keeping your project healthy"
 date: 2012-07-28 14:53
 comments: true
 categories:
-published: false
 ---
 
 Whether you are running consultant company or startup or maybe just playing with some code. It's easy to get caught in the flow of development. With increase of features the amount of technical debt for a project is rising.
@@ -37,7 +37,7 @@ Here are some tips that help us to run
 
 ### Remove trailing spaces
 
-  Trailing spaces is a minor detail but it adds a level of noise in git logs in development process.
+  Trailing spaces is a minor detail but it adds a level of noise in git logs in development process. It is really annoying
 
 #### To clean up whitespaces in all files in project you can use following command
 

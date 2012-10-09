@@ -1,10 +1,10 @@
 ---
 layout: post
+author: "Vladimir Penkin"
 title: "TomDoc package for SublimeText2"
 date: 2012-09-07 00:26
 comments: true
 categories:
-published: false
 ---
 
 ## TomDoc package for SublimeText2
@@ -17,22 +17,28 @@ So to promote writing of documentation in your company, one approach is to build
 
 **Motivation** for this plugin was to have fully functional TomDoc plugin.
 
+You can find source code <https://github.com/shell/sublime-tomdoc>
+
 ### Installation
 
 Right now package is not accepted to package manager source, so only way to install it is to go SublimeText2 packages directory and do:
 
+```bash
     git clone git@github.com:shell/sublime-tomdoc.git
-
+```
 
 ### Usage
 
 Pressing **ctrl+enter** on the previous line of method definition
 
+```ruby
     def hello a, b
     end
+```
 
 results to
 
+```ruby
     # Public: Duplicate some text an arbitrary number of times.
     #
     # a -
@@ -42,6 +48,7 @@ results to
     def hello a, b
 
     end
+```
 
 Works respectfully for all other supported constructions
 

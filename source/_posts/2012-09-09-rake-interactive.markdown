@@ -1,10 +1,10 @@
 ---
 layout: post
+author: "Vladimir Penkin"
 title: "Rake interactive"
 date: 2012-09-09 23:13
 comments: true
 categories:
-published: false
 ---
 
 ### Motivation
@@ -112,7 +112,7 @@ This version accepts optional parameter - string of commands separated by &&
   -> 1
   time noglob rake interactive["db:drop && db:create && db:migrate",1]
   -> 13.14s user 1.60s system 94% cpu 15.646 total
-```      
+```
 
 Good eh? 11 seconds for rails to start and 2 more seconds for execute database tasks. Instead of 55 seconds.
 
@@ -124,8 +124,8 @@ There are few questions left with this script.
 
 But the bigger question is that you might don't want to run **yet another rails instance** when you already running __rails server__ and __rails console__. There seems no problem with running Rake::Task['TASKNAME'].invoke from console. But you know what would be really cool? Run that from rails server!
 
-I am not sure if this can be implemented. **gets** is blocking operation so while waiting for user input, we will block whole server. It might be possible with experimental rails projects like [async-rails](https://github.com/igrigorik/async-rails) or servers like unicorn or thin. 
+I am not sure if this can be implemented. **gets** is blocking operation so while waiting for user input, we will block whole server. It might be possible with experimental rails projects like [async-rails](https://github.com/igrigorik/async-rails) or servers like unicorn or thin.
 
 So if you have some idea how to do that, just let us know!
-    
+
 

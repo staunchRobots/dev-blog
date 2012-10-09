@@ -15,7 +15,7 @@
             index;
 
         for (index in badges) {
-          fragment += '<a class="cw_badge"title="' + badges[index].description + '" href="http://coderwall.com/' + options.user + '">';
+          fragment += '<a class="cw_badge"title="' + badges[index].description + '" href="http://coderwall.com/team/' + options.user + '">';
           fragment +=   '<img alt="' + badges[index].description + '" height="' + width + '" width="' + height + '" src="' + badges[index].badge + '"/>';
           fragment += '</a>';
         }
@@ -25,7 +25,7 @@
       return {
         showBadges: function(options){
           $.ajax({
-              url: 'http://coderwall.com/' + options.user + '.json?callback=?'
+              url: 'http://coderwall.com/team/' + options.user + '.json?callback=?'
             , dataType: 'jsonp'
             , error: function (err) { $(options.target + ' li.loading').addClass('error').text("Error loading feed"); }
             , success: function(res) {

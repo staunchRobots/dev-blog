@@ -1,10 +1,10 @@
 ---
 layout: post
+author: "Jeffrey Biles"
 title: "Gemifying your app for fun and profit"
 date: 2012-08-31 14:53
 comments: true
 categories: ruby
-published: true
 ---
 
 ###Installment 1 in "Coolest Thing I Did This Week"
@@ -13,7 +13,7 @@ Welcome to installment 1 of "Coolest Thing I Did This Week", a (hopefully) weekl
 
 ##First, make something you'd like to gemify
 
-I'm not going to help you with this part.  For now let's just assume that you have an application that you'd like to share with the world in an easy way.  If you're working in the ruby world, that's through creating a gem.  
+I'm not going to help you with this part.  For now let's just assume that you have an application that you'd like to share with the world in an easy way.  If you're working in the ruby world, that's through creating a gem.
 
 ###Wait, tell me again why we're doing this...
 
@@ -50,13 +50,13 @@ If you're convinced, let's go.  If you're not, then go ahead and distribute your
 	  s.files = Dir.glob("{bin,lib}/**/*") + %w(README.md)
 	  s.executables = ["cloudalign"]
 	  s.homepage = 'http://rubygems.org/gems/cloudalign-cli'
-  
+
 	  s.add_dependency("thor")
 	  s.add_dependency("rest-client")
 	  s.add_dependency("formatador")
 	  s.add_dependency("rspec")
 	end
-	
+
 Most of these fields are self-explanatory.  Name, authors, summary are exactly what they sound like.  add_dependency is just a list of the other gems required (what you have in your gemfile).  The version number is for semantic versioning (or, if you prefer, terrible non-semantic versioning).
 
 The ones you must pay attention to are 'files' and 'executables'.  The 'files' entry was stolen from (if memory serves correctly) a blog post by yehuda katz.  You can copy it verbatim, though you may want to include a few more extraneous files aside from the readme.  In the 'executables' entry, you put the main executable file of your app, usually found in the 'bin' folder.
