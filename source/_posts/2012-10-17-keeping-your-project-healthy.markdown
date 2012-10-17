@@ -15,7 +15,7 @@ Why care about maintainability?
 
   * new developers can pick up project very easily and be productive from day 1
   * if you leave project for some time it will be easy to get back.
- * reduce the amount of bugs, and time spent having to fix bugs by clearing up convoluted, time pressured solutions.
+  * reduce the amount of bugs, and time spent having to fix bugs by clearing up convoluted, time pressured solutions.
                                       
 I always find myself to do this kind of cleaning up when I join a new project. I have decided to make a list of the things that I find myself doing routinely when joining a new project, this is a sort of checklist if you will.
 
