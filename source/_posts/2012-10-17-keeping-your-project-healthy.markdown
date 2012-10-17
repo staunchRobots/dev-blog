@@ -7,16 +7,17 @@ comments: true
 categories:
 ---
 
-Whether you are running consultant company or startup or maybe just playing with some code. It's easy to get caught in the flow of development. With increasing amount of features the amount of technical debt for a project is rising as well.
+Whether you are running consultant company or startup or maybe just playing with some code. It's easy to get caught in the flow of development. With pressure to release features o time, it is increasingly common to accrue technical debt.
 
-Once a period, it's very important to step aside of actual development and make a good cleanup. Good mainainable project is important because of:
+Once in a while, it's very important to step aside of actual development and make a good cleanup, clearing your technical debt, and ensuring a quality maintainable project.  
+
+Why care about maintainability?
 
   * new developers can pick up project very easily and be productive from day 1
   * if you leave project for some time it will be easy to get back.
+ * reduce the amount of bugs, and time spent having to fix bugs by clearing up convoluted, time pressured solutions.
                                       
-I always find myself to do that kind of cleaning up when I join projects. 
-
-Here are some tips that help me to develop and maintain projects.
+I always find myself to do this kind of cleaning up when I join a new project. I have decided to make a list of the things that I find myself doing routinely when joining a new project, this is a sort of checklist if you will.
 
 ### rails-footnotes
 
@@ -47,7 +48,7 @@ Here are some tips that help me to develop and maintain projects.
     find . -not \( -name .svn -prune -o -name .git -prune \) -type f -print0 | xargs -0 file -In | grep -v binary | cut -d ":" -f1 | xargs -0 sed -i '' -E "s/[[:space:]]*$//"
 ```
 
-  Script is going through files all except binary and source control files and removes trailing whitespaces.
+  Script goes through all files except binary and source control files and removes trailing whitespaces.
 
 #### Setup text editor to remove trailing spaces before saving file
 
@@ -73,9 +74,9 @@ Here are some tips that help me to develop and maintain projects.
 
   Seeds are very important, whether it's demo(developer) data or actual production seed. 
   When updating models associations or structure do not forget to reflect this changes in seeds.rb file.
-  On one of our projects I spend TENS of hours working on seed script and sample data, so we can deploy fully working staging application in no time. Any time that customer wants to check a progress. Helfull in a demo day.
+  On one of our projects I spend TENS of hours working on seed script and sample data, so we can deploy fully working staging application in no time. Any time that customer wants to check a progress. This tends to be an area that get habitually neglected, and makes proper testing, and staging impossible.
 
-  Another antipattern that I usually see is keeping your seed data in migrations. Seriously why you want to digg to migration every time you forget password for admin user?
+  Another antipattern that I usually see is folks keeping seed data in migrations. Seriously why you want to dig to migration every time you forget password for admin user?
 
 [active_admin example](https://github.com/gregbell/active_admin/blob/master/lib/generators/active_admin/devise/devise_generator.rb#L49)
 
@@ -84,7 +85,7 @@ Here are some tips that help me to develop and maintain projects.
   Go through all the models and check if you can extract some code from models to general utility modules. This will(hopefully!) not break anything inside but make code more readable.
   Also consider to going even further - apply SRP(Single Responsibility Principle) and compose classes that do only one thing, but do it good.
 
-### Change README file, no matter whatever for
+### Make a decent README file
   There is 3 types of readme files for rails projects. Most popular is almost empty readme file with project name and short description. Next by popularity is file starting with line "== Welcome to Rails". Rare beast is readme file that actually reflects the project, shows you <code>installation instructions</code>, <code>usage</code> patterns, goes through custom <code>rake tasks</code> that used to run project and <code>guide to run tests!</code>
   
 Check out [Readme Driven Development](http://tom.preston-werner.com/2010/08/23/readme-driven-development.html)
@@ -112,7 +113,7 @@ Your doc/ folder will be separate submodule inside your repo. You can keep a goo
 [Pro Tip](http://coderwall.com/p/vuy3nq)
 
 ### RVMRCFY!
-  Create and check in in to repository .rvmrc file with specific vestion of ruby that you all be running. This will keep everyone on the same page while development process. I was in situations when my version of ruby as miserably failing on tests while it was working for everyone else.
+  Create and check in in to repository .rvmrc file with specific version of ruby that you will be running. This will keep everyone on the same page while development process. I was in situations when my version of ruby as miserably failing on tests while it was working for everyone else, this is easilly avoidable!
   
   If you using zsh, here is function that will help you to easily create .rvmrc file for project
 
