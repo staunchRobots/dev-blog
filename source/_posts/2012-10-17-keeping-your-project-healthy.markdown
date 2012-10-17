@@ -5,7 +5,6 @@ title: "Keeping your project healthy"
 date: 2012-10-17 14:53
 comments: true
 categories:
-published: false
 ---
 
 Whether you are running consultant company or startup or maybe just playing with some code. It's easy to get caught in the flow of development. With increasing amount of features the amount of technical debt for a project is rising as well.
