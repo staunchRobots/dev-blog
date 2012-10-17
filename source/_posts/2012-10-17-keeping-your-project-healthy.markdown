@@ -7,7 +7,7 @@ comments: true
 categories:
 ---
 
-Whether you are running consultant company or startup or maybe just playing with some code. It's easy to get caught in the flow of development. With pressure to release features o time, it is increasingly common to accrue technical debt.
+Whether you are running consultant company or startup or maybe just playing with some code. It's easy to get caught in the flow of development. With pressure to release features on time, it is increasingly common to accrue technical debt.
 
 Once in a while, it's very important to step aside of actual development and make a good cleanup, clearing your technical debt, and ensuring a quality maintainable project.  
 
