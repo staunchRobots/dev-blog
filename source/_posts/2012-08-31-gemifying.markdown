@@ -7,9 +7,7 @@ comments: true
 categories: ruby
 ---
 
-###Installment 1 in "Coolest Thing I Did This Week"
-
-Welcome to installment 1 of "Coolest Thing I Did This Week", a (hopefully) weekly feature where I tell you about something that I did, why it was cool, and how you can do it too.  This week, it's about how to gemify something.
+So you want to make a gem?  Here's how:
 
 ##First, make something you'd like to gemify
 
@@ -37,7 +35,7 @@ If you're convinced, let's go.  If you're not, then go ahead and distribute your
 
 ##First, make a gemspec
 
-	In the main directory, create a file called YOUR_APP_NAME.gemspec.  In this file, you'll put something like this:
+In the main directory, create a file called YOUR_APP_NAME.gemspec.  In this file, you'll put something like this:
 
 	Gem::Specification.new do |s|
 	  s.name = 'cloudalign-cli'
