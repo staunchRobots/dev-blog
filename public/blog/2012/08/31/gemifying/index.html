@@ -1,0 +1,395 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Gemifying your app for fun and profit - StaunchRobots dev blog</title>
+  <meta name="author" content="collective">
+
+  
+  <meta name="description" content="So you want to make a gem? Here&#8217;s how: First, make something you&#8217;d like to gemify I&#8217;m not going to help you with this part. For now &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://staunchrobots.com/blog/blog/2012/08/31/gemifying/">
+  <link href="/blog/favicon.png" rel="icon">
+  <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/blog/javascripts/modernizr-2.0.js"></script>
+  <script src="/blog/javascripts/ender.js"></script>
+  <script src="/blog/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="StaunchRobots dev blog" type="application/atom+xml">
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div id="logo">
+    <div id="logoLeft">{</div>
+    <div id="logoText"></div>
+    <div id="logoRight">}</div>
+    <div class="clear"></div>
+  </div>
+  <h1><a href="/blog/">StaunchRobots dev blog</a></h1>
+  
+    <h2>adventures in programming</h2>
+  
+  <div class="clear"></div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:staunchrobots.com/blog" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="http://staunchrobots.com">Staunchrobots</a></li>
+  <li><a href="/blog/">Blog</a></li>
+  <li><a href="/blog/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">Gemifying Your App for Fun and Profit</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-31T14:53:00-05:00" pubdate data-updated="true">Aug 31<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>So you want to make a gem?  Here&#8217;s how:</p>
+
+<h2>First, make something you&#8217;d like to gemify</h2>
+
+<p>I&#8217;m not going to help you with this part.  For now let&#8217;s just assume that you have an application that you&#8217;d like to share with the world in an easy way.  If you&#8217;re working in the ruby world, that&#8217;s through creating a gem.</p>
+
+<h3>Wait, tell me again why we&#8217;re doing this&#8230;</h3>
+
+<p>Let&#8217;s use my specific situation to illustrate.  We&#8217;re making a command line application that we share with the subscribers of our service so that if they are versed in *nix systems they can automate the use of our service.  Before I gemified the command line application, here&#8217;s what a user had to do:</p>
+
+<ol>
+<li>Clone the files off github</li>
+<li>cd into the new directory</li>
+<li>bundle install</li>
+<li>set up user credentials in a yaml file</li>
+<li>type &#8220;bin/cloudalign&#8221;</li>
+</ol>
+
+
+<p>In addition to all of these steps, step 5 will ONLY work in one directory.  Let me show you the steps after gemifying:</p>
+
+<ol>
+<li>gem install cloudalign-cli</li>
+<li>set up user credentials in a yaml file</li>
+<li>type &#8220;cloudalign&#8221;</li>
+</ol>
+
+
+<p>Not only are there fewer steps, but two of the three steps that are left require less technical know-how (and we&#8217;re working on making step 2 easier as well, but simply gemifying doesn&#8217;t help that).</p>
+
+<p>If you&#8217;re convinced, let&#8217;s go.  If you&#8217;re not, then go ahead and distribute your app the old-fashioned way and come back when you&#8217;re wiser ;)</p>
+
+<h2>First, make a gemspec</h2>
+
+<p>In the main directory, create a file called YOUR_APP_NAME.gemspec.  In this file, you&#8217;ll put something like this:</p>
+
+<pre><code>Gem::Specification.new do |s|
+  s.name = 'cloudalign-cli'
+  s.version = '0.1.1'
+  s.platform = Gem::Platform::RUBY
+  s.authors = ['Jonathan McCaffrey', 'Jeffrey Biles']
+  s.summary = %q{Access cloudalign from your command line}
+  s.description = %q{Cloudalign brings the power of the cloud straight to your lab}
+  s.rubyforge_project = "cloudalign-cli"
+  s.files = Dir.glob("{bin,lib}/**/*") + %w(README.md)
+  s.executables = ["cloudalign"]
+  s.homepage = 'http://rubygems.org/gems/cloudalign-cli'
+
+  s.add_dependency("thor")
+  s.add_dependency("rest-client")
+  s.add_dependency("formatador")
+  s.add_dependency("rspec")
+end
+</code></pre>
+
+<p>Most of these fields are self-explanatory.  Name, authors, summary are exactly what they sound like.  add_dependency is just a list of the other gems required (what you have in your gemfile).  The version number is for semantic versioning (or, if you prefer, terrible non-semantic versioning).</p>
+
+<p>The ones you must pay attention to are &#8216;files&#8217; and &#8216;executables&#8217;.  The &#8216;files&#8217; entry was stolen from (if memory serves correctly) a blog post by yehuda katz.  You can copy it verbatim, though you may want to include a few more extraneous files aside from the readme.  In the &#8216;executables&#8217; entry, you put the main executable file of your app, usually found in the &#8216;bin&#8217; folder.</p>
+
+<h3>Second, bundle it all up</h3>
+
+<p>Like the previous steps, this one is also easy.  In the command line, while in the main directory of your app, type <code>gem build YOUR_GEMSPEC_FILE</code>.  You&#8217;ll get a message saying that a gem has been created.  This will be a file named <code>GEM_NAME-GEM_VERSION.gem</code>.</p>
+
+<p>Test this by typing <code>gem install GEM_NAME-GEM_VERSION.gem</code> (installing using the gem that was just created).  This installs it in your system, as a gem.  Finally, test it by running it just like you expect your users to.  In this case, I would type <code>cloudalign project list</code>, and sure enough it works as expected (return a list of the projects that the user is involved in).</p>
+
+<p>Great!  You&#8217;ve got a gem!  Now to distribute it.</p>
+
+<h3>Third, push to rubygems</h3>
+
+<p>Rubygems is the standard way that developers publish their open-source gems.  If you wish to keep your code closed-source, there are <a href="http://www.cerebris.com/blog/2011/03/15/creating-and-managing-private-rubygems-with-jeweler-github-and-bundler/">ways to do that</a>, but hosting your gems on rubygems is the general practice, and extremely simple to boot.</p>
+
+<p>Here are the steps</p>
+
+<ol>
+<li><a href="https://rubygems.org/users/new">sign up for a rubygems account</a></li>
+<li>download some of their tools by typing <code>curl -u RUBYGEMS_USERNAME https://rubygems.org/api/v1/api_key.yaml &gt; ~/.gem/credentials</code></li>
+<li>type <code>gem push GEM_NAME-GEM_VERSION.gem</code></li>
+</ol>
+
+
+<h3>Fourth, test on another project</h3>
+
+<p>In another project, type <code>gem install GEM_NAME</code>.  Test to see if it works as intended.</p>
+
+<h3>Fifth, fun</h3>
+
+<p>Your code is now WAY easier and more fun for others to use.</p>
+
+<h3>Sixth, profit</h3>
+
+<p>(unless you&#8217;re twitter)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Jeffrey Biles</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-31T14:53:00-05:00" pubdate data-updated="true">Aug 31<span>st</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://staunchrobots.com/blog/blog/2012/08/31/gemifying/" data-via="staunchrobots" data-counturl="http://staunchrobots.com/blog/blog/2012/08/31/gemifying/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left articlenav" href="/blog/blog/2012/07/27/sinatra-template/" title="Previous Post: Sinatra template">&laquo; Sinatra template</a>
+      
+      
+        <a class="basic-alignment right articlenav" href="/blog/blog/2012/09/06/switch-to-zsh/" title="Next Post: Switching to zsh and why you should do it now">Switching to zsh and why you should do it now &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <ul id="recent_posts">
+      <li class="post">
+      <a href="http://staunchrobots.com/blog" alt="Home"><img src="/blog/images/Home.png"></a>
+      <a href="http://staunchrobots.com/blog/archives/" alt="Archives"><img src="/blog/images/Calendar.png"></a>
+      <a href="mailto:info@staunchrobots.com" alt="E-Mail"><img src="/blog/images/Envelope.png"></a>
+      <a href="http://staunchrobots.com/blog/atom.xml" alt="subscribe feed"><img width="54" src="/blog/images/rss.png"></a>
+      </li>
+  </ul>
+</section>
+<section>
+  <h1>About Staunchrobots</h1>
+  <ul id="recent_posts">
+    <li class="post">
+      We are a boutique agency of developers working reliable consistent eastern standard hours. We are passionate about clean code and strictly adhere to best practices of the ruby way.
+    </li>
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/blog/2012/10/17/keeping-your-project-healthy/">Keeping your project healthy</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2012/09/07/sublime-tomdoc/">TomDoc package for SublimeText2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2012/09/06/switch-to-zsh/">Switching to zsh and why you should do it now</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2012/08/31/gemifying/">Gemifying your app for fun and profit</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2012/07/27/sinatra-template/">Sinatra template</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'shell',
+            count: 3,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/blog/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("staunchrobots", 4, false);
+    });
+  </script>
+  <script src="/blog/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/staunchrobots" class="twitter-follow-button" data-show-count="false">Follow @staunchrobots</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - collective -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+<script type='text/javascript'>
+  //<![CDATA[
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-32956013-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  //]]>
+</script>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

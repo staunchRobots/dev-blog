@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ruby | StaunchRobots dev blog]]></title>
+  <link href="http://staunchrobots.com/blog/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://staunchrobots.com/blog/"/>
+  <updated>2013-03-14T20:10:16-05:00</updated>
+  <id>http://staunchrobots.com/blog/</id>
+  <author>
+    <name><![CDATA[collective]]></name>
+    <email><![CDATA[info@staunchrobots.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Gemifying your app for fun and profit]]></title>
+    <link href="http://staunchrobots.com/blog/blog/2012/08/31/gemifying/"/>
+    <updated>2012-08-31T14:53:00-05:00</updated>
+    <id>http://staunchrobots.com/blog/blog/2012/08/31/gemifying</id>
+    <content type="html"><![CDATA[<p>So you want to make a gem?  Here's how:</p>
+
+<h2>First, make something you'd like to gemify</h2>
+
+<p>I'm not going to help you with this part.  For now let's just assume that you have an application that you'd like to share with the world in an easy way.  If you're working in the ruby world, that's through creating a gem.</p>
+
+<h3>Wait, tell me again why we're doing this...</h3>
+
+<p>Let's use my specific situation to illustrate.  We're making a command line application that we share with the subscribers of our service so that if they are versed in *nix systems they can automate the use of our service.  Before I gemified the command line application, here's what a user had to do:</p>
+
+<ol>
+<li>Clone the files off github</li>
+<li>cd into the new directory</li>
+<li>bundle install</li>
+<li>set up user credentials in a yaml file</li>
+<li>type "bin/cloudalign"</li>
+</ol>
+
+
+<p>In addition to all of these steps, step 5 will ONLY work in one directory.  Let me show you the steps after gemifying:</p>
+
+<ol>
+<li>gem install cloudalign-cli</li>
+<li>set up user credentials in a yaml file</li>
+<li>type "cloudalign"</li>
+</ol>
+
+
+<p>Not only are there fewer steps, but two of the three steps that are left require less technical know-how (and we're working on making step 2 easier as well, but simply gemifying doesn't help that).</p>
+
+<p>If you're convinced, let's go.  If you're not, then go ahead and distribute your app the old-fashioned way and come back when you're wiser ;)</p>
+
+<h2>First, make a gemspec</h2>
+
+<p>In the main directory, create a file called YOUR_APP_NAME.gemspec.  In this file, you'll put something like this:</p>
+
+<pre><code>Gem::Specification.new do |s|
+  s.name = 'cloudalign-cli'
+  s.version = '0.1.1'
+  s.platform = Gem::Platform::RUBY
+  s.authors = ['Jonathan McCaffrey', 'Jeffrey Biles']
+  s.summary = %q{Access cloudalign from your command line}
+  s.description = %q{Cloudalign brings the power of the cloud straight to your lab}
+  s.rubyforge_project = "cloudalign-cli"
+  s.files = Dir.glob("{bin,lib}/**/*") + %w(README.md)
+  s.executables = ["cloudalign"]
+  s.homepage = 'http://rubygems.org/gems/cloudalign-cli'
+
+  s.add_dependency("thor")
+  s.add_dependency("rest-client")
+  s.add_dependency("formatador")
+  s.add_dependency("rspec")
+end
+</code></pre>
+
+<p>Most of these fields are self-explanatory.  Name, authors, summary are exactly what they sound like.  add_dependency is just a list of the other gems required (what you have in your gemfile).  The version number is for semantic versioning (or, if you prefer, terrible non-semantic versioning).</p>
+
+<p>The ones you must pay attention to are 'files' and 'executables'.  The 'files' entry was stolen from (if memory serves correctly) a blog post by yehuda katz.  You can copy it verbatim, though you may want to include a few more extraneous files aside from the readme.  In the 'executables' entry, you put the main executable file of your app, usually found in the 'bin' folder.</p>
+
+<h3>Second, bundle it all up</h3>
+
+<p>Like the previous steps, this one is also easy.  In the command line, while in the main directory of your app, type <code>gem build YOUR_GEMSPEC_FILE</code>.  You'll get a message saying that a gem has been created.  This will be a file named <code>GEM_NAME-GEM_VERSION.gem</code>.</p>
+
+<p>Test this by typing <code>gem install GEM_NAME-GEM_VERSION.gem</code> (installing using the gem that was just created).  This installs it in your system, as a gem.  Finally, test it by running it just like you expect your users to.  In this case, I would type <code>cloudalign project list</code>, and sure enough it works as expected (return a list of the projects that the user is involved in).</p>
+
+<p>Great!  You've got a gem!  Now to distribute it.</p>
+
+<h3>Third, push to rubygems</h3>
+
+<p>Rubygems is the standard way that developers publish their open-source gems.  If you wish to keep your code closed-source, there are <a href="http://www.cerebris.com/blog/2011/03/15/creating-and-managing-private-rubygems-with-jeweler-github-and-bundler/">ways to do that</a>, but hosting your gems on rubygems is the general practice, and extremely simple to boot.</p>
+
+<p>Here are the steps</p>
+
+<ol>
+<li><a href="https://rubygems.org/users/new">sign up for a rubygems account</a></li>
+<li>download some of their tools by typing <code>curl -u RUBYGEMS_USERNAME https://rubygems.org/api/v1/api_key.yaml &gt; ~/.gem/credentials</code></li>
+<li>type <code>gem push GEM_NAME-GEM_VERSION.gem</code></li>
+</ol>
+
+
+<h3>Fourth, test on another project</h3>
+
+<p>In another project, type <code>gem install GEM_NAME</code>.  Test to see if it works as intended.</p>
+
+<h3>Fifth, fun</h3>
+
+<p>Your code is now WAY easier and more fun for others to use.</p>
+
+<h3>Sixth, profit</h3>
+
+<p>(unless you're twitter)</p>
+]]></content>
+  </entry>
+  
+</feed>

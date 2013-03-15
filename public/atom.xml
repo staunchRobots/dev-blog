@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[StaunchRobots dev blog]]></title>
+  <link href="http://staunchrobots.com/blog/atom.xml" rel="self"/>
+  <link href="http://staunchrobots.com/blog/"/>
+  <updated>2013-03-14T20:10:16-05:00</updated>
+  <id>http://staunchrobots.com/blog/</id>
+  <author>
+    <name><![CDATA[collective]]></name>
+    <email><![CDATA[info@staunchrobots.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Keeping your project healthy]]></title>
+    <link href="http://staunchrobots.com/blog/blog/2012/10/17/keeping-your-project-healthy/"/>
+    <updated>2012-10-17T14:53:00-05:00</updated>
+    <id>http://staunchrobots.com/blog/blog/2012/10/17/keeping-your-project-healthy</id>
+    <content type="html"><![CDATA[<p>Whether you are running consultant company or startup or maybe just playing with some code. It&#8217;s easy to get caught in the flow of development. With pressure to release features on time, it is increasingly common to accrue technical debt.</p>
+
+<p>Once in a while, it&#8217;s very important to step aside of actual development and make a good cleanup, clearing your technical debt, and ensuring a quality maintainable project.</p>
+
+<p>Why care about maintainability?</p>
+
+<ul>
+<li>new developers can pick up project very easily and be productive from day 1</li>
+<li>if you leave project for some time it will be easy to get back.</li>
+<li>reduce the amount of bugs, and time spent having to fix bugs by clearing up convoluted, time pressured solutions.</li>
+</ul>
+
+
+<p>I always find myself to do this kind of cleaning up when I join a new project. I have decided to make a list of the things that I find myself doing routinely when joining a new project, this is a sort of checklist if you will.</p>
+
+<h3>rails-footnotes</h3>
+
+<p>  If you write Rails applications on the daily basis, you should know this plugin by Jose Valim. What it do, is displaying all kind of interesting information that happen in the cycle of request. Sessions, request parameters, cookies, filter chain, routes, queries.</p>
+
+<p>  There is text editor integration with MacVim, Textmate and SublimeText2. You can jump to particular place in code from footnotes. Also it replaces error page with proper links to files.</p>
+
+<p>  <a href="https://github.com/josevalim/rails-footnotes">https://github.com/josevalim/rails-footnotes</a></p>
+
+<p>  Also take a look at more light alternative:
+  <a href="http://miniprofiler.com/">http://miniprofiler.com/</a></p>
+
+<h3>Bullet</h3>
+
+<p>  The Bullet gem is designed to help you increase your application’s performance by reducing the number of queries it makes. It will watch your queries while you develop your application and notify you when you should add eager loading (N+1 queries), when you’re using eager loading that isn’t necessary and when you should use counter cache.</p>
+
+<p>  <a href="https://github.com/flyerhzm/bullet">https://github.com/flyerhzm/bullet</a></p>
+
+<h3>Remove trailing spaces</h3>
+
+<p>  Seriously, remove them right now! Trailing spaces is a minor detail but it adds a level of noise to git logs in development process. It is very annoying!</p>
+
+<p><img src="http://staunchrobots.com/blog/images/trailing_whitespaces.png" alt="Trailing noise" /></p>
+
+<h4>To clean up whitespaces in all files in project you can use following command</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>find . -not <span class="se">\(</span> -name .svn -prune -o -name .git -prune <span class="se">\)</span> -type f -print0 | xargs -0 file -In | grep -v binary | cut -d <span class="s2">&quot;:&quot;</span> -f1 | xargs -0 sed -i <span class="s1">&#39;&#39;</span> -E <span class="s2">&quot;s/[[:space:]]*$//&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>  Script goes through all files except binary and source control files and removes trailing whitespaces.</p>
+
+<h4>Setup text editor to remove trailing spaces before saving file</h4>
+
+<ul>
+<li><p><em>sublime</em></p>
+
+<p>Recently popular Sublime Text 2 have this functionality built in by default. You just need to add following string to configuration file:</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>  <span class="s2">&quot;trim_trailing_white_space_on_save&quot;</span>: <span class="nb">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p><em>textmate</em></p>
+
+<p>Here is textmate bundle to Convert Tabs To Spaces and Remove Trailing Whitespace</p>
+
+<p><a href="https://github.com/glennr/uber-glory-tmbundle">https://github.com/glennr/uber-glory-tmbundle</a></p></li>
+<li><p><em>vim</em></p>
+
+<p>If you are using vim, it&#8217;s a very good chance you already setup this functionality.
+If not, you can use this link <a href="http://rails-bestpractices.com/posts/60-remove-trailing-whitespace">http://rails-bestpractices.com/posts/60-remove-trailing-whitespace</a></p></li>
+</ul>
+
+
+<h3>Keep your seeds fresh!</h3>
+
+<p>  Seeds are very important, whether it&#8217;s demo(developer) data or actual production seed.
+  When updating models associations or structure do not forget to reflect this changes in seeds.rb file.
+  On one of our projects I spend TENS of hours working on seed script and sample data, so we can deploy fully working staging application in no time. Any time that customer wants to check a progress. This tends to be an area that get habitually neglected, and makes proper testing, and staging impossible.</p>
+
+<p>  Another antipattern that I usually see is folks keeping seed data in migrations. Seriously why you want to dig to migration every time you forget password for admin user?</p>
+
+<p><a href="https://github.com/gregbell/active_admin/blob/master/lib/generators/active_admin/devise/devise_generator.rb#L49">active_admin example</a></p>
+
+<h3>Extract modules</h3>
+
+<p>  Go through all the models and check if you can extract some code from models to general utility modules. This will(hopefully!) not break anything inside but make code more readable.
+  Also consider to going even further - apply SRP(Single Responsibility Principle) and compose classes that do only one thing, but do it good.</p>
+
+<h3>Make a decent README file</h3>
+
+<p>  There is 3 types of readme files for rails projects. Most popular is almost empty readme file with project name and short description. Next by popularity is file starting with line &#8220;== Welcome to Rails&#8221;. Rare beast is readme file that actually reflects the project, shows you <code>installation instructions</code>, <code>usage</code> patterns, goes through custom <code>rake tasks</code> that used to run project and <code>guide to run tests!</code></p>
+
+<p>Check out <a href="http://tom.preston-werner.com/2010/08/23/readme-driven-development.html">Readme Driven Development</a></p>
+
+<h3>Do not forget about /doc folder</h3>
+
+<p>  This folder can be very good to keep your project documentation. Of course we all know about github wiki pages or basecamp or any other knowledge base of choice. But do you really want to be dependent of external service to keep your documentation?</p>
+
+<p>  With just a few keystrokes in your editor you can have access to all documentation related to project. Credentials, setting up development machine, deployment, testing, tips, technical debts, just random ideas, list can go forever.</p>
+
+<p>  But wait, it&#8217;s not the best thing yet. The best thing is you can <strong>track</strong> changes in documentation just going through commits! Why use two places for tracking news in the code instead of one?(SCM)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>  git rm -r --cached doc/
+</span><span class='line'>  git commit -m <span class="s1">&#39;Removed doc folder from repo&#39;</span>
+</span><span class='line'>  rm -rf doc/
+</span><span class='line'>
+</span><span class='line'>  git submodule add git@github.com:user/project.wiki.git doc
+</span><span class='line'>  git commit -m <span class="s1">&#39;Initialize wiki doc repository&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Before running that script you need to tell github to create wiki repository by hitting url: <code>http://github.com/user/repo/wiki/_access</code>
+Your doc/ folder will be separate submodule inside your repo. You can keep a good track of what is happening inside doc/ directory.</p>
+
+<p><a href="http://coderwall.com/p/vuy3nq">Pro Tip</a></p>
+
+<h3>RVMRCFY!</h3>
+
+<p>  Create and check in in to repository .rvmrc file with specific version of ruby that you will be running. This will keep everyone on the same page while development process. I was in situations when my version of ruby as miserably failing on tests while it was working for everyone else, this is easilly avoidable!</p>
+
+<p>  If you using zsh, here is function that will help you to easily create .rvmrc file for project</p>
+
+<p><a href="http://coderwall.com/p/41he7a?i=2&amp;p=1&amp;q=author%3Ashell&amp;t%5B%5D=shell">Pro Tip</a></p>
+
+<h3>Newrelic rpm</h3>
+
+<p>  Setup free account to monitor your servers. Newrelic is sending emails when your CPU or memory is over threshold.
+  Also by default you can browse page response time and find controllers that spend most of resources.</p>
+
+<p><a href="http://newrelic.com/">NewRelic</a></p>
+
+<h3>Live metrics</h3>
+
+<p>  Instrumental App makes it easy to see what&#8217;s happening in your application right now.
+  Collecting live information about performance of application can get your eyes open on a lot of things. With just few changes you can save hundreds of dollars on hardware.</p>
+
+<p>  Check out <a href="https://instrumentalapp.com">https://instrumentalapp.com</a></p>
+
+<h3>Code Climate - collect metrics</h3>
+
+<p>  The best way to reflect on code is to collect various code metrics.</p>
+
+<p>  Check out <a href="https://codeclimate.com/">https://codeclimate.com/</a></p>
+
+<h3>Use capistrano to deploy(unless you using heroku)</h3>
+
+<p>  Use automated deployment with no excuse! Either heroku or capistrano or even rsync</p>
+
+<p>  <a href="https://gist.github.com/2161449">gist</a></p>
+
+<h3>Wrapping up</h3>
+
+<p>  This is list of most common things in every project, hope this will help you to make your project more maintainable. &lt;3 &lt;3 &lt;3</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[TomDoc package for SublimeText2]]></title>
+    <link href="http://staunchrobots.com/blog/blog/2012/09/07/sublime-tomdoc/"/>
+    <updated>2012-09-07T00:26:00-05:00</updated>
+    <id>http://staunchrobots.com/blog/blog/2012/09/07/sublime-tomdoc</id>
+    <content type="html"><![CDATA[<h2>TomDoc package for SublimeText2</h2>
+
+<p><strong>TomDoc</strong> - is a code documentation specification that helps you write precise documentation that is nice to read in plain text, yet structured enough to be automatically extracted and processed by a machine.</p>
+
+<p><strong>SublimeText2</strong> - is very powerfull text editor that are taking over TextMate right now.</p>
+
+<p>So to promote writing of documentation in your company, one approach is to build tools around helping programmers write it!</p>
+
+<p><strong>Motivation</strong> for this plugin was to have fully functional TomDoc plugin.</p>
+
+<p>You can find source code <a href="https://github.com/shell/sublime-tomdoc">https://github.com/shell/sublime-tomdoc</a></p>
+
+<h3>Installation</h3>
+
+<p>Right now package is not accepted to package manager source, so only way to install it is to go SublimeText2 packages directory and do:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone git@github.com:shell/sublime-tomdoc.git
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Usage</h3>
+
+<p>Pressing <strong>ctrl+enter</strong> on the previous line of method definition</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">hello</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>results to</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Public: Duplicate some text an arbitrary number of times.</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># a -</span>
+</span><span class='line'><span class="c1"># b -</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># Returns the duplicated String.</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">hello</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Works respectfully for all other supported constructions</p>
+
+<p>Other usage way is to type &#8216;tom&#8217; and hit <strong>TAB</strong> to generate default TomDoc skeleton text.</p>
+
+<p>Plugin supports following constructions for TomDoc:</p>
+
+<ul>
+<li>Method Documentation</li>
+<li>Initialize method Documentation</li>
+<li>Class/Module Documentation</li>
+<li>Constants Documentation</li>
+<li>Attributes</li>
+</ul>
+
+
+<h3>What do you think?</h3>
+
+<p>Shoot us email if you have some problems with this plugin or want specific features</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Switching to zsh and why you should do it now]]></title>
+    <link href="http://staunchrobots.com/blog/blog/2012/09/06/switch-to-zsh/"/>
+    <updated>2012-09-06T23:13:00-05:00</updated>
+    <id>http://staunchrobots.com/blog/blog/2012/09/06/switch-to-zsh</id>
+    <content type="html"><![CDATA[<h2>Switching to zsh and why you should do it now</h2>
+
+<p>If you working with ruby or rails, there is big chance that you spending lots of time in console. Yeah you probably using already this wonderful project that helps you everyday called <a href="http://www.iterm2.com/">iTerm2</a>. But why don&#8217;t make your work even more comfortable?!</p>
+
+<p><em>zsh</em> - is a shell designed for interactive use, although it is also a powerful scripting language. Many of the useful features of bash, ksh, and tcsh were incorporated into zsh; many original features were added</p>
+
+<p><em>oh-my-zsh!</em> - A community-driven framework for managing your zsh configuration. Includes 40+ optional plugins (rails, git, OSX, hub, capistrano, brew, ant, macports, etc), over 80 terminal themes to spice up your morning, and an auto-update tool so that makes it easy to keep up with the latest updates from the community</p>
+
+<p>There is no reason why not to try it, automatic script will install everything for you. If you decide to stick up with good old configured bash, just run uninstallation script.</p>
+
+<h3>Installation</h3>
+
+<p>Installation is deadly easy:</p>
+
+<h4>via <code>curl</code></h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>  curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>via <code>wget</code></h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>  wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you have some troubles - manual installation is available.
+After installation open up new console window and say &#8220;OH-MY-ZSH!&#8221;</p>
+
+<p>All configuration is done via <strong>.zshrc</strong> file.</p>
+
+<h3>Features</h3>
+
+<p><em>zsh</em> comes with a bunch of nifty functionality built in and  <em>oh-my-zsh</em> comes with handful of interesting plugins.</p>
+
+<p>I will not explain how to enable them here, but roughly will go through best. You can find plugins in <em>~/.oh-my-zsh/plugins</em> folder.</p>
+
+<h4>bundler</h4>
+
+<p>Plugin adds nifty shortcuts like:</p>
+
+<ul>
+<li><em>bi</em> for &#8216;bundle install&#8217;</li>
+<li><em>be</em> for &#8216;bundle exec&#8217;</li>
+<li><em>bu</em> for &#8216;bundle update&#8217;</li>
+</ul>
+
+
+<p>Also it wrapps all regular commands that can require &#8216;bundle exec&#8217; before them and add it for you. Now you will never need to run command twice, just because bundle wasn&#8217;t setted up properly.</p>
+
+<h4>cloudapp by Zach Holman</h4>
+
+<p><a href="http://getcloudapp.com/">CloudApp</a> allows you to share images, links, music, videos and files. Usually you just drop files to icon and app automatically uploads them to cloud and drops short link into your clipboard. It automatically uploads screenshots from your desktop.</p>
+
+<p>Plugin allows you to upload a file from the command line to CloudApp.</p>
+
+<h4>git</h4>
+
+<p>Adds lots of aliases to type less while using git. Something that you probably already setted up is: <em>ga</em>(git add), <em>gb</em>(git branch), <em>gc</em>(git commit).</p>
+
+<p>One of my favorites are:</p>
+
+<ul>
+<li><em>ggpull</em> - pulls current branch from server. Like &#8216;git pull&#8217; but with current branch name</li>
+<li><em>ggpush</em> - same as previous but for push</li>
+<li><em>ggpnp</em> - doing pull and then push for current branch.</li>
+</ul>
+
+
+<h4>github!</h4>
+
+<p>Plugin adds nifty commands to manage your github repositories:</p>
+
+<ul>
+<li>empty_gh - creates new repo from scratch. Adds README file and pushes to your account</li>
+<li>new_gh - Used for directory not setted up for git yet. creates .gitignore and README files and pushes to github</li>
+<li>exist_gh - use this one when github repo is setted up already you just want to add remote and push updates from here</li>
+</ul>
+
+
+<h4>osx</h4>
+
+<p>Some commands to rule your system:</p>
+
+<ul>
+<li>tab() - opens up new tab in your terminal of choise(Terminal.app or iTerm2)</li>
+<li>pfs() - returns path for selected item in finder</li>
+<li>cdf() - cd&#8217;s to selected item in finder</li>
+<li>quick-look() - opens up file with quick-look</li>
+</ul>
+
+
+<h4>pow</h4>
+
+<p><a href="http://pow.cx/">Pow</a> is a zero-config Rack server for Mac OS X.</p>
+
+<p>So this plugin adds few commands to rule that doomsday device:</p>
+
+<ul>
+<li>kapow - a command that will restart an app</li>
+<li>powit - makes symlink from current directory so it will be served by pow</li>
+<li>kaput - view the standard out (puts) from any pow app</li>
+</ul>
+
+
+<h4>rails and rails3</h4>
+
+<p>Some aliases:</p>
+
+<ul>
+<li>rc   - rails console</li>
+<li>rg   - rails generate</li>
+<li>rgm  - rails generate migration</li>
+<li>rs   - rails server</li>
+<li>rsd  - rails server &#8211;debug</li>
+<li>mig=&#8217;rake db:migrate&#8217;</li>
+<li>roll=&#8217;rake db:rollback&#8217;</li>
+</ul>
+
+
+<h4>textmate</h4>
+
+<p>Some aliasses:</p>
+
+<ul>
+<li>et   - &#8216;mate .&#8217;</li>
+<li>mr   - Edit Ruby app in TextMate</li>
+</ul>
+
+
+<h4>vi-mode</h4>
+
+<p>One of my favorite plugins. Brings power of vim move/edit commands in console</p>
+
+<p>But wait, it&#8217;s not all! Most of plugins for particular tools(git, github, bundler, brew&#8230;) adds autocompletion for this commands.</p>
+
+<h3>More information</h3>
+
+<p>Ryan Bates have wonderful screencast about oh-my-zsh
+<a href="http://railscasts.com/episodes/308-oh-my-zsh">http://railscasts.com/episodes/308-oh-my-zsh</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Gemifying your app for fun and profit]]></title>
+    <link href="http://staunchrobots.com/blog/blog/2012/08/31/gemifying/"/>
+    <updated>2012-08-31T14:53:00-05:00</updated>
+    <id>http://staunchrobots.com/blog/blog/2012/08/31/gemifying</id>
+    <content type="html"><![CDATA[<p>So you want to make a gem?  Here&#8217;s how:</p>
+
+<h2>First, make something you&#8217;d like to gemify</h2>
+
+<p>I&#8217;m not going to help you with this part.  For now let&#8217;s just assume that you have an application that you&#8217;d like to share with the world in an easy way.  If you&#8217;re working in the ruby world, that&#8217;s through creating a gem.</p>
+
+<h3>Wait, tell me again why we&#8217;re doing this&#8230;</h3>
+
+<p>Let&#8217;s use my specific situation to illustrate.  We&#8217;re making a command line application that we share with the subscribers of our service so that if they are versed in *nix systems they can automate the use of our service.  Before I gemified the command line application, here&#8217;s what a user had to do:</p>
+
+<ol>
+<li>Clone the files off github</li>
+<li>cd into the new directory</li>
+<li>bundle install</li>
+<li>set up user credentials in a yaml file</li>
+<li>type &#8220;bin/cloudalign&#8221;</li>
+</ol>
+
+
+<p>In addition to all of these steps, step 5 will ONLY work in one directory.  Let me show you the steps after gemifying:</p>
+
+<ol>
+<li>gem install cloudalign-cli</li>
+<li>set up user credentials in a yaml file</li>
+<li>type &#8220;cloudalign&#8221;</li>
+</ol>
+
+
+<p>Not only are there fewer steps, but two of the three steps that are left require less technical know-how (and we&#8217;re working on making step 2 easier as well, but simply gemifying doesn&#8217;t help that).</p>
+
+<p>If you&#8217;re convinced, let&#8217;s go.  If you&#8217;re not, then go ahead and distribute your app the old-fashioned way and come back when you&#8217;re wiser ;)</p>
+
+<h2>First, make a gemspec</h2>
+
+<p>In the main directory, create a file called YOUR_APP_NAME.gemspec.  In this file, you&#8217;ll put something like this:</p>
+
+<pre><code>Gem::Specification.new do |s|
+  s.name = 'cloudalign-cli'
+  s.version = '0.1.1'
+  s.platform = Gem::Platform::RUBY
+  s.authors = ['Jonathan McCaffrey', 'Jeffrey Biles']
+  s.summary = %q{Access cloudalign from your command line}
+  s.description = %q{Cloudalign brings the power of the cloud straight to your lab}
+  s.rubyforge_project = "cloudalign-cli"
+  s.files = Dir.glob("{bin,lib}/**/*") + %w(README.md)
+  s.executables = ["cloudalign"]
+  s.homepage = 'http://rubygems.org/gems/cloudalign-cli'
+
+  s.add_dependency("thor")
+  s.add_dependency("rest-client")
+  s.add_dependency("formatador")
+  s.add_dependency("rspec")
+end
+</code></pre>
+
+<p>Most of these fields are self-explanatory.  Name, authors, summary are exactly what they sound like.  add_dependency is just a list of the other gems required (what you have in your gemfile).  The version number is for semantic versioning (or, if you prefer, terrible non-semantic versioning).</p>
+
+<p>The ones you must pay attention to are &#8216;files&#8217; and &#8216;executables&#8217;.  The &#8216;files&#8217; entry was stolen from (if memory serves correctly) a blog post by yehuda katz.  You can copy it verbatim, though you may want to include a few more extraneous files aside from the readme.  In the &#8216;executables&#8217; entry, you put the main executable file of your app, usually found in the &#8216;bin&#8217; folder.</p>
+
+<h3>Second, bundle it all up</h3>
+
+<p>Like the previous steps, this one is also easy.  In the command line, while in the main directory of your app, type <code>gem build YOUR_GEMSPEC_FILE</code>.  You&#8217;ll get a message saying that a gem has been created.  This will be a file named <code>GEM_NAME-GEM_VERSION.gem</code>.</p>
+
+<p>Test this by typing <code>gem install GEM_NAME-GEM_VERSION.gem</code> (installing using the gem that was just created).  This installs it in your system, as a gem.  Finally, test it by running it just like you expect your users to.  In this case, I would type <code>cloudalign project list</code>, and sure enough it works as expected (return a list of the projects that the user is involved in).</p>
+
+<p>Great!  You&#8217;ve got a gem!  Now to distribute it.</p>
+
+<h3>Third, push to rubygems</h3>
+
+<p>Rubygems is the standard way that developers publish their open-source gems.  If you wish to keep your code closed-source, there are <a href="http://www.cerebris.com/blog/2011/03/15/creating-and-managing-private-rubygems-with-jeweler-github-and-bundler/">ways to do that</a>, but hosting your gems on rubygems is the general practice, and extremely simple to boot.</p>
+
+<p>Here are the steps</p>
+
+<ol>
+<li><a href="https://rubygems.org/users/new">sign up for a rubygems account</a></li>
+<li>download some of their tools by typing <code>curl -u RUBYGEMS_USERNAME https://rubygems.org/api/v1/api_key.yaml &gt; ~/.gem/credentials</code></li>
+<li>type <code>gem push GEM_NAME-GEM_VERSION.gem</code></li>
+</ol>
+
+
+<h3>Fourth, test on another project</h3>
+
+<p>In another project, type <code>gem install GEM_NAME</code>.  Test to see if it works as intended.</p>
+
+<h3>Fifth, fun</h3>
+
+<p>Your code is now WAY easier and more fun for others to use.</p>
+
+<h3>Sixth, profit</h3>
+
+<p>(unless you&#8217;re twitter)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sinatra template]]></title>
+    <link href="http://staunchrobots.com/blog/blog/2012/07/27/sinatra-template/"/>
+    <updated>2012-07-27T18:18:00-05:00</updated>
+    <id>http://staunchrobots.com/blog/blog/2012/07/27/sinatra-template</id>
+    <content type="html"><![CDATA[<p>Recently I found myself doing a couple of very simple services for my cliens with Sinatra. Just some basic authentication, <code>active_record</code> and <code>mysql2</code> database, few forms, rails view helpers. There is a lot of guides and tutorials around internet. But it seems that there is no good Sinatra template  with testing coverate, basic files structure, etc.</p>
+
+<p>So I made one! <a href="https://github.com/shell/sinatra-template">Sinatra Template</a></p>
+
+<h2>Features</h2>
+
+<pre><code>* HTTP basic authentication
+* ActiveRecord orm
+* Sqlite3 for development, Mysql2 for production
+* 2 very basic but associated models
+* HAML, blueprint, jquery
+* User and Admin interfaces
+* Scroller with products
+* Full rake tasks for db management(hacked sinatra-activerecord gem)
+* Testing suite out of the box(RSpec)
+* Some essential Rails helpers
+* Ready for deploy with passenger(config/setup_load_paths.rb)
+</code></pre>
+
+<p>Some prefer to extract controllers, models and helpers in corresponding folders and split them over files. It is a matter of taste. If you have that much code, consider using Rails instead.</p>
+
+<p>Enjoy</p>
+]]></content>
+  </entry>
+  
+</feed>
