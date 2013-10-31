@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[StaunchRobots dev blog]]></title>
-  <link href="http://staunchrobots.com/blog/feed" rel="self"/>
-  <link href="http://staunchrobots.com/blog/"/>
-  <updated>2013-03-14T20:30:45-05:00</updated>
-  <id>http://staunchrobots.com/blog/</id>
+  <link href="http://staunchrobots.com/feed" rel="self"/>
+  <link href="http://staunchrobots.com/"/>
+  <updated>2013-10-31T21:51:38+01:00</updated>
+  <id>http://staunchrobots.com/</id>
   <author>
     <name><![CDATA[collective]]></name>
     <email><![CDATA[info@staunchrobots.com]]></email>
@@ -14,10 +14,141 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Up and Running With AngularJS &amp; Rails]]></title>
+    <link href="http://staunchrobots.com/2013/10/31/up-and-running-with-angularjs-and-rails/"/>
+    <updated>2013-10-31T19:41:00+01:00</updated>
+    <id>http://staunchrobots.com/2013/10/31/up-and-running-with-angularjs-and-rails</id>
+    <content type="html"><![CDATA[<p>Lately, we at StaunchRobots have started working with AngularJS; a new and increasingly popular Javascript Framework. The purpose of this post is not to describe the great things AngularJS provides you but to outline what we have found to be the best way to start to develop with AngularJS and Rails.</p>
+
+<p>AngularJS is a client-side framework and therefore talks to backend services such as a JSON API. The backend can be programmed with whatever you prefer on the server-side such as Node, Rails or Django.</p>
+
+<p>For the development of the AngularJS app we use <a href="http://yeoman.io/">Yeoman</a>. Yeoman is a collection of tools that improves and speeds up your development workflow. You can find instructions on how to install Yeoman on their <a href="http://yeoman.io/">website</a>.</p>
+
+<p>So enough talk, let’s get this thing rolling.</p>
+
+<ol>
+<li>Create the Rails &amp; Angular App</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rails new angular_rails
+</span><span class='line'><span class="nb">cd </span>angular_rails
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Create the AngularJS app within the root directory of the rails project. To do this you will need to install the angular generators that ship with Yo, one of the tools found within Yeoman.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir angular_client <span class="o">&amp;&amp;</span> <span class="nb">cd</span> <span class="nv">$_</span>
+</span><span class='line'>npm install -g generator-angular  <span class="o">(</span>in <span class="k">case </span>you have not installed them<span class="o">)</span>
+</span><span class='line'>yo angular client
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The last command creates a project skeleton for the AngularJS client app and installs the necessary node packages. For a full list of yo angular generators have a look <a href="https://github.com/yeoman/generator-angular">here</a>.</p>
+
+<p>From now on you should have two terminal windows open. Once parked in the rails root directory from where you run rails specific tasks (rake db:create, rails server, etc.) and the other within the ‘client’ directory inside the rails root directory from where you run AngularJS specific tasks.</p>
+
+<p>Now, while developing the app you will have two servers running. The rails server which provides the JSON API and the development server for your AngularJS client started via the command ‘grunt server’. In order to proxy requests made from the angular app to the rails server you will need to modify the Gruntfile.</p>
+
+<ol>
+<li>Modify the Gruntfile rails_root_path/client/Gruntfile</li>
+</ol>
+
+
+<p>First, add the following line to the Gruntfile:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>var <span class="nv">proxySnippet</span> <span class="o">=</span> require<span class="o">(</span><span class="s1">&#39;grunt-connect-proxy/lib/utils&#39;</span><span class="o">)</span>.proxyRequest;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And specify your proxy setting:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>proxies: <span class="o">[{</span>
+</span><span class='line'>  context: <span class="s1">&#39;/api/v1&#39;</span>,
+</span><span class='line'>  host: <span class="s1">&#39;localhost&#39;</span>,
+</span><span class='line'>  port: 3000,
+</span><span class='line'>  https: <span class="nb">false</span>,
+</span><span class='line'>  changeOrigin: <span class="nb">false</span>
+</span><span class='line'><span class="o">}]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, configure the folder to which the ‘grunt build’ command will copy and compile the angular client app just before deployment. Currently we put the angular client inside the ‘public’ folder within the rails root directory and have it served as a static files.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>var <span class="nv">yeomanConfig</span> <span class="o">=</span> <span class="o">{</span>
+</span><span class='line'>  app: <span class="s1">&#39;app&#39;</span>,
+</span><span class='line'>  dist: <span class="s1">&#39;../public&#39;</span>
+</span><span class='line'><span class="o">}</span>;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can see a complete gist of a Gruntfile here:</p>
+
+<p><a href="https://gist.github.com/soeffing/6434784/">https://gist.github.com/soeffing/6434784/</a></p>
+
+<p>Finally, run the following command which will install the necessary node package to proxy requests from the angular client to the rails backend.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>npm install grunt-connect-proxy --save-dev
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>Getting around CORS issues</li>
+</ol>
+
+
+<p>Now fire up the two servers (rails server &amp; grunt server). When you try to communicate with the rails API via the http or ngResource services provided by AngularJS you will run into <a href="http://en.wikipedia.org/wiki/Cross-%20origin_resource_sharing">CORS</a> issues. This occurs because the two servers run on different domains (localhost:3000 (rails) &amp; localhost:9000 (angular)). In order to allow CORS add the following code to your application_controller.rb file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">before_filter</span> <span class="ss">:cors_set_access_control_headers</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">cors_set_access_control_headers</span>
+</span><span class='line'>  <span class="n">headers</span><span class="o">[</span><span class="s1">&#39;Access-Control-Allow-Origin&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;*&#39;</span><span class="c1"># need to be changed once it goes to production &#39;http://localhost:8080&#39;</span>
+</span><span class='line'>  <span class="n">headers</span><span class="o">[</span><span class="s1">&#39;Access-Control-Allow-Methods&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;POST, GET, PUT, DELETE, OPTIONS&#39;</span>
+</span><span class='line'>  <span class="n">headers</span><span class="o">[</span><span class="s1">&#39;Access-Control-Allow-Headers&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;*, X-Requested-With, X-Prototype-Version, X-CSRF-Token, Content-Type&#39;</span>
+</span><span class='line'>  <span class="n">headers</span><span class="o">[</span><span class="s1">&#39;Access-Control-Max-Age&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;1728000&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you are clear to develop with AngularJS and Rails. Before deployment you have to run the ‘grunt build’ command within the ‘client’ directory which will compile and copy the angular client app into the public folder of the Rails project.</p>
+
+<p>Expect more AngularJS related posts to come.</p>
+
+<p>Happy coding!</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Keeping your project healthy]]></title>
-    <link href="http://staunchrobots.com/blog/blog/2012/10/17/keeping-your-project-healthy/"/>
-    <updated>2012-10-17T14:53:00-05:00</updated>
-    <id>http://staunchrobots.com/blog/blog/2012/10/17/keeping-your-project-healthy</id>
+    <link href="http://staunchrobots.com/2012/10/17/keeping-your-project-healthy/"/>
+    <updated>2012-10-17T14:53:00+02:00</updated>
+    <id>http://staunchrobots.com/2012/10/17/keeping-your-project-healthy</id>
     <content type="html"><![CDATA[<p>Whether you are running consultant company or startup or maybe just playing with some code. It&#8217;s easy to get caught in the flow of development. With pressure to release features on time, it is increasingly common to accrue technical debt.</p>
 
 <p>Once in a while, it&#8217;s very important to step aside of actual development and make a good cleanup, clearing your technical debt, and ensuring a quality maintainable project.</p>
@@ -54,7 +185,7 @@
 
 <p>  Seriously, remove them right now! Trailing spaces is a minor detail but it adds a level of noise to git logs in development process. It is very annoying!</p>
 
-<p><img src="http://staunchrobots.com/blog/images/trailing_whitespaces.png" alt="Trailing noise" /></p>
+<p><img src="http://staunchrobots.com/images/trailing_whitespaces.png" alt="Trailing noise" /></p>
 
 <h4>To clean up whitespaces in all files in project you can use following command</h4>
 
@@ -183,9 +314,9 @@ Your doc/ folder will be separate submodule inside your repo. You can keep a goo
   
   <entry>
     <title type="html"><![CDATA[TomDoc package for SublimeText2]]></title>
-    <link href="http://staunchrobots.com/blog/blog/2012/09/07/sublime-tomdoc/"/>
-    <updated>2012-09-07T00:26:00-05:00</updated>
-    <id>http://staunchrobots.com/blog/blog/2012/09/07/sublime-tomdoc</id>
+    <link href="http://staunchrobots.com/2012/09/07/sublime-tomdoc/"/>
+    <updated>2012-09-07T00:26:00+02:00</updated>
+    <id>http://staunchrobots.com/2012/09/07/sublime-tomdoc</id>
     <content type="html"><![CDATA[<h2>TomDoc package for SublimeText2</h2>
 
 <p><strong>TomDoc</strong> - is a code documentation specification that helps you write precise documentation that is nice to read in plain text, yet structured enough to be automatically extracted and processed by a machine.</p>
@@ -264,9 +395,9 @@ Your doc/ folder will be separate submodule inside your repo. You can keep a goo
   
   <entry>
     <title type="html"><![CDATA[Switching to zsh and why you should do it now]]></title>
-    <link href="http://staunchrobots.com/blog/blog/2012/09/06/switch-to-zsh/"/>
-    <updated>2012-09-06T23:13:00-05:00</updated>
-    <id>http://staunchrobots.com/blog/blog/2012/09/06/switch-to-zsh</id>
+    <link href="http://staunchrobots.com/2012/09/06/switch-to-zsh/"/>
+    <updated>2012-09-06T23:13:00+02:00</updated>
+    <id>http://staunchrobots.com/2012/09/06/switch-to-zsh</id>
     <content type="html"><![CDATA[<h2>Switching to zsh and why you should do it now</h2>
 
 <p>If you working with ruby or rails, there is big chance that you spending lots of time in console. Yeah you probably using already this wonderful project that helps you everyday called <a href="http://www.iterm2.com/">iTerm2</a>. But why don&#8217;t make your work even more comfortable?!</p>
@@ -414,9 +545,9 @@ After installation open up new console window and say &#8220;OH-MY-ZSH!&#8221;</
   
   <entry>
     <title type="html"><![CDATA[Gemifying your app for fun and profit]]></title>
-    <link href="http://staunchrobots.com/blog/blog/2012/08/31/gemifying/"/>
-    <updated>2012-08-31T14:53:00-05:00</updated>
-    <id>http://staunchrobots.com/blog/blog/2012/08/31/gemifying</id>
+    <link href="http://staunchrobots.com/2012/08/31/gemifying/"/>
+    <updated>2012-08-31T14:53:00+02:00</updated>
+    <id>http://staunchrobots.com/2012/08/31/gemifying</id>
     <content type="html"><![CDATA[<p>So you want to make a gem?  Here&#8217;s how:</p>
 
 <h2>First, make something you&#8217;d like to gemify</h2>
@@ -513,9 +644,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[Sinatra template]]></title>
-    <link href="http://staunchrobots.com/blog/blog/2012/07/27/sinatra-template/"/>
-    <updated>2012-07-27T18:18:00-05:00</updated>
-    <id>http://staunchrobots.com/blog/blog/2012/07/27/sinatra-template</id>
+    <link href="http://staunchrobots.com/2012/07/27/sinatra-template/"/>
+    <updated>2012-07-27T18:18:00+02:00</updated>
+    <id>http://staunchrobots.com/2012/07/27/sinatra-template</id>
     <content type="html"><![CDATA[<p>Recently I found myself doing a couple of very simple services for my cliens with Sinatra. Just some basic authentication, <code>active_record</code> and <code>mysql2</code> database, few forms, rails view helpers. There is a lot of guides and tutorials around internet. But it seems that there is no good Sinatra template  with testing coverate, basic files structure, etc.</p>
 
 <p>So I made one! <a href="https://github.com/shell/sinatra-template">Sinatra Template</a></p>

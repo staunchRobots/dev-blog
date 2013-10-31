@@ -1,0 +1,394 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Up and Running With AngularJS &amp; Rails - StaunchRobots dev blog</title>
+  <meta name="author" content="collective">
+
+  
+  <meta name="description" content="Lately, we at StaunchRobots have started working with AngularJS; a new and increasingly popular Javascript Framework. The purpose of this post is not &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://staunchrobots.com/2013/10/31/up-and-running-with-angularjs-and-rails/">
+  <link href="/blog/favicon.png" rel="icon">
+  <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/blog/javascripts/modernizr-2.0.js"></script>
+  <script src="/blog/javascripts/ender.js"></script>
+  <script src="/blog/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="StaunchRobots dev blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/blog/">StaunchRobots dev blog</a></h1>
+  
+    <h2>adventures in programming</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:staunchrobots.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/blog/">Blog</a></li>
+  <li><a href="/blog/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Up and Running With AngularJS &amp; Rails</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-31T19:41:00+01:00" pubdate data-updated="true">Oct 31<span>st</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Lately, we at StaunchRobots have started working with AngularJS; a new and increasingly popular Javascript Framework. The purpose of this post is not to describe the great things AngularJS provides you but to outline what we have found to be the best way to start to develop with AngularJS and Rails.</p>
+
+<p>AngularJS is a client-side framework and therefore talks to backend services such as a JSON API. The backend can be programmed with whatever you prefer on the server-side such as Node, Rails or Django.</p>
+
+<p>For the development of the AngularJS app we use <a href="http://yeoman.io/">Yeoman</a>. Yeoman is a collection of tools that improves and speeds up your development workflow. You can find instructions on how to install Yeoman on their <a href="http://yeoman.io/">website</a>.</p>
+
+<p>So enough talk, let’s get this thing rolling.</p>
+
+<ol>
+<li>Create the Rails &amp; Angular App</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rails new angular_rails
+</span><span class='line'><span class="nb">cd </span>angular_rails
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Create the AngularJS app within the root directory of the rails project. To do this you will need to install the angular generators that ship with Yo, one of the tools found within Yeoman.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir angular_client <span class="o">&amp;&amp;</span> <span class="nb">cd</span> <span class="nv">$_</span>
+</span><span class='line'>npm install -g generator-angular  <span class="o">(</span>in <span class="k">case </span>you have not installed them<span class="o">)</span>
+</span><span class='line'>yo angular client
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The last command creates a project skeleton for the AngularJS client app and installs the necessary node packages. For a full list of yo angular generators have a look <a href="https://github.com/yeoman/generator-angular">here</a>.</p>
+
+<p>From now on you should have two terminal windows open. Once parked in the rails root directory from where you run rails specific tasks (rake db:create, rails server, etc.) and the other within the ‘client’ directory inside the rails root directory from where you run AngularJS specific tasks.</p>
+
+<p>Now, while developing the app you will have two servers running. The rails server which provides the JSON API and the development server for your AngularJS client started via the command ‘grunt server’. In order to proxy requests made from the angular app to the rails server you will need to modify the Gruntfile.</p>
+
+<ol>
+<li>Modify the Gruntfile rails_root_path/client/Gruntfile</li>
+</ol>
+
+
+<p>First, add the following line to the Gruntfile:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>var <span class="nv">proxySnippet</span> <span class="o">=</span> require<span class="o">(</span><span class="s1">&#39;grunt-connect-proxy/lib/utils&#39;</span><span class="o">)</span>.proxyRequest;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And specify your proxy setting:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>proxies: <span class="o">[{</span>
+</span><span class='line'>  context: <span class="s1">&#39;/api/v1&#39;</span>,
+</span><span class='line'>  host: <span class="s1">&#39;localhost&#39;</span>,
+</span><span class='line'>  port: 3000,
+</span><span class='line'>  https: <span class="nb">false</span>,
+</span><span class='line'>  changeOrigin: <span class="nb">false</span>
+</span><span class='line'><span class="o">}]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, configure the folder to which the ‘grunt build’ command will copy and compile the angular client app just before deployment. Currently we put the angular client inside the ‘public’ folder within the rails root directory and have it served as a static files.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>var <span class="nv">yeomanConfig</span> <span class="o">=</span> <span class="o">{</span>
+</span><span class='line'>  app: <span class="s1">&#39;app&#39;</span>,
+</span><span class='line'>  dist: <span class="s1">&#39;../public&#39;</span>
+</span><span class='line'><span class="o">}</span>;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can see a complete gist of a Gruntfile here:</p>
+
+<p><a href="https://gist.github.com/soeffing/6434784/">https://gist.github.com/soeffing/6434784/</a></p>
+
+<p>Finally, run the following command which will install the necessary node package to proxy requests from the angular client to the rails backend.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>npm install grunt-connect-proxy --save-dev
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>Getting around CORS issues</li>
+</ol>
+
+
+<p>Now fire up the two servers (rails server &amp; grunt server). When you try to communicate with the rails API via the http or ngResource services provided by AngularJS you will run into <a href="http://en.wikipedia.org/wiki/Cross-%20origin_resource_sharing">CORS</a> issues. This occurs because the two servers run on different domains (localhost:3000 (rails) &amp; localhost:9000 (angular)). In order to allow CORS add the following code to your application_controller.rb file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">before_filter</span> <span class="ss">:cors_set_access_control_headers</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">cors_set_access_control_headers</span>
+</span><span class='line'>  <span class="n">headers</span><span class="o">[</span><span class="s1">&#39;Access-Control-Allow-Origin&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;*&#39;</span><span class="c1"># need to be changed once it goes to production &#39;http://localhost:8080&#39;</span>
+</span><span class='line'>  <span class="n">headers</span><span class="o">[</span><span class="s1">&#39;Access-Control-Allow-Methods&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;POST, GET, PUT, DELETE, OPTIONS&#39;</span>
+</span><span class='line'>  <span class="n">headers</span><span class="o">[</span><span class="s1">&#39;Access-Control-Allow-Headers&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;*, X-Requested-With, X-Prototype-Version, X-CSRF-Token, Content-Type&#39;</span>
+</span><span class='line'>  <span class="n">headers</span><span class="o">[</span><span class="s1">&#39;Access-Control-Max-Age&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;1728000&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you are clear to develop with AngularJS and Rails. Before deployment you have to run the ‘grunt build’ command within the ‘client’ directory which will compile and copy the angular client app into the public folder of the Rails project.</p>
+
+<p>Expect more AngularJS related posts to come.</p>
+
+<p>Happy coding!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ulrich Soeffing</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-31T19:41:00+01:00" pubdate data-updated="true">Oct 31<span>st</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://staunchrobots.com/2013/10/31/up-and-running-with-angularjs-and-rails/" data-via="staunchrobots" data-counturl="http://staunchrobots.com/2013/10/31/up-and-running-with-angularjs-and-rails/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/10/17/keeping-your-project-healthy/" title="Previous Post: Keeping your project healthy">&laquo; Keeping your project healthy</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <ul id="recent_posts">
+      <li class="post">
+      <a href="http://staunchrobots.com" alt="Home"><img src="/blog/images/Home.png"></a>
+      <a href="http://staunchrobots.com/archives/" alt="Archives"><img src="/blog/images/Calendar.png"></a>
+      <a href="mailto:info@staunchrobots.com" alt="E-Mail"><img src="/blog/images/Envelope.png"></a>
+      <a href="http://staunchrobots.com/atom.xml" alt="subscribe feed"><img width="54" src="/blog/images/rss.png"></a>
+      </li>
+  </ul>
+</section>
+<section>
+  <h1>About Staunchrobots</h1>
+  <ul id="recent_posts">
+    <li class="post">
+      We are a boutique agency of developers working reliable consistent eastern standard hours. We are passionate about clean code and strictly adhere to best practices of the ruby way.
+    </li>
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/10/31/up-and-running-with-angularjs-and-rails/">Up and Running With AngularJS &amp; Rails</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/17/keeping-your-project-healthy/">Keeping your project healthy</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/07/sublime-tomdoc/">TomDoc package for SublimeText2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/06/switch-to-zsh/">Switching to zsh and why you should do it now</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/31/gemifying/">Gemifying your app for fun and profit</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'shell',
+            count: 3,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/blog/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("staunchrobots", 4, false);
+    });
+  </script>
+  <script src="/blog/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/staunchrobots" class="twitter-follow-button" data-show-count="false">Follow @staunchrobots</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - collective -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: ruby | StaunchRobots dev blog]]></title>
-  <link href="http://staunchrobots.com/blog/blog/categories/ruby/atom.xml" rel="self"/>
-  <link href="http://staunchrobots.com/blog/"/>
-  <updated>2013-03-14T20:30:45-05:00</updated>
-  <id>http://staunchrobots.com/blog/</id>
+  <link href="http://staunchrobots.com/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://staunchrobots.com/"/>
+  <updated>2013-10-31T21:51:38+01:00</updated>
+  <id>http://staunchrobots.com/</id>
   <author>
     <name><![CDATA[collective]]></name>
     <email><![CDATA[info@staunchrobots.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Gemifying your app for fun and profit]]></title>
-    <link href="http://staunchrobots.com/blog/blog/2012/08/31/gemifying/"/>
-    <updated>2012-08-31T14:53:00-05:00</updated>
-    <id>http://staunchrobots.com/blog/blog/2012/08/31/gemifying</id>
+    <link href="http://staunchrobots.com/2012/08/31/gemifying/"/>
+    <updated>2012-08-31T14:53:00+02:00</updated>
+    <id>http://staunchrobots.com/2012/08/31/gemifying</id>
     <content type="html"><![CDATA[<p>So you want to make a gem?  Here's how:</p>
 
 <h2>First, make something you'd like to gemify</h2>
